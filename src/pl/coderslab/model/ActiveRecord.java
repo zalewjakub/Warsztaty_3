@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class ActiveRecord {
 	protected String id = "0";
 	protected String tableName = "";
@@ -51,6 +52,31 @@ public class ActiveRecord {
 		return displayOrder.toArray(tmp);
 	}
 
+	public ArrayList<String> loadAll(int limit) {
+		ArrayList<String> datas = new ArrayList<String>();
+		try {
+			String sql = String.format("SELECT * FROM %s LIMIT %s", tableName, limit);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+//			result.next();
+			while(result.next()) {
+			for (String fieldName : tableFieldsValues.keySet()) {
+				tableFieldsValues.put(fieldName, result.getString(fieldName));				
+			}
+			
+			for (String key : this.getFields()) {
+				datas.add(this.getValue(key));
+			}
+			System.out.println(datas.toString());
+			}
+			return datas;// zwracamy cały ActiveRecord
+		} catch (SQLException e) {
+			System.out.println(e);
+			return new ArrayList<String>(); // zwracamy pusty obiekt
+		}
+		
+	}
+	
 	public ActiveRecord getById(int id) {
 		try {
 			String sql = String.format("SELECT * FROM %s WHERE id = ?", tableName);
@@ -101,11 +127,22 @@ public class ActiveRecord {
 	}
 
 	
+	
+	
+	
 	public void save() {
 		if (id.equals("0")) {
 			createNew();
 		} else {
-			// uptade do zrobienia
+			
+			String sql = "UPDATE %s SET username=?, email=?, password=? where id = %s";
+			PreparedStatement preparedStatement;
+			preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setString(1, this.username);
+			preparedStatement.setString(2, this.email);
+			preparedStatement.setString(3, this.password);
+			preparedStatement.setInt(4, this.id);
+			preparedStatement.executeUpdate();
 		}
 	}
 }

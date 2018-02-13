@@ -14,16 +14,9 @@
 		<c:forEach var='name' items="${user.fields}">
 			<input type="text" name="${name}" placeholder="${name}"}>
 		</c:forEach>
-		<br><input type="submit" name="${getTableName}" placeholder="Wyślij"><br>
-		<br> ${param.message}
+		<br> <input type="submit" name="${getTableName}"
+			placeholder="Wyślij"><br> <br> ${param.message}<br>
 	</form>
-
-	<form action="" method='post'>
-		Szukaj Użytkownika: 
-		<input type="text" name="id" placeholder="Podaj Id"}> 
-		<input type="submit" placeholder="Wyślij">
-	</form>
-
-
+	<a href="http://localhost:8080/Warsztaty_3/Menu">Powrót do Strony głównej</a>
 </body>
 </html>
