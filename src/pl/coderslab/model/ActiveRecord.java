@@ -125,7 +125,16 @@ public class ActiveRecord {
 			System.out.println("Wypełnij wszystkie pola");
 		}
 	}
-
+	public void update(String whatUpdate, int id) {
+		String sql = String.format("UPDATE %s SET %s where id = %s", tableName, whatUpdate, id);
+		System.out.println(sql);
+		try {
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+	}
 	
 	
 	
@@ -134,15 +143,6 @@ public class ActiveRecord {
 		if (id.equals("0")) {
 			createNew();
 		} else {
-			
-			String sql = "UPDATE %s SET username=?, email=?, password=? where id = %s";
-			PreparedStatement preparedStatement;
-			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, this.username);
-			preparedStatement.setString(2, this.email);
-			preparedStatement.setString(3, this.password);
-			preparedStatement.setInt(4, this.id);
-			preparedStatement.executeUpdate();
 		}
 	}
 }
