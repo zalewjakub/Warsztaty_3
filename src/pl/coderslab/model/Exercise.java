@@ -6,6 +6,12 @@ public class Exercise extends ActiveRecord{
 		tableName = "exercise";
 		setTableFieldsValue("title", "description");
 	}
+
+	@Override
+	public ActiveRecord getById(int id) {
+		// TODO Auto-generated method stub
+		return super.getById(id);
+	}
 	
 	
 

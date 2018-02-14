@@ -8,11 +8,11 @@
 <title>Użytkownik</title>
 </head>
 <body>
-	<form action="http://localhost:8080/Warsztaty_3/usersLoadAll" method='post'>
+	<form action="http://localhost:8080/Warsztaty_3/LoadUsers" method='post'>
 		Podaj limit wyświetleń: <br> <input type="number" name="limit"
 			placeholder="Podaj Limit" step="1" min="0" max="1000000"}><br> <input
 			type="submit" value="Wyślij"><br> <input type="submit"
-			value="Drukuj całość" formaction="http://localhost:8080/Warsztaty_3/usersLoadAll"> <br>
+			value="Drukuj całość" formaction="http://localhost:8080/Warsztaty_3/LoadUsers"> <br>
 	
 	</form>
 	<table border=' 1px solid black'>
@@ -42,7 +42,7 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="http://localhost:8080/Warsztaty_3/Menu">Powrót do Strony
+	<a href="http://localhost:8080/Warsztaty_3/homepage">Powrót do strony
 		głównej</a>
 </body>
 </html>

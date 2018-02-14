@@ -15,7 +15,7 @@ import pl.coderslab.model.User;
 /**
  * Servlet implementation class users
  */
-@WebServlet("/usersLoadAll")
+@WebServlet("/LoadUsers")
 public class UsersLoadAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

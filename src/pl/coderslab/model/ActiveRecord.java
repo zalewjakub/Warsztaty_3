@@ -134,10 +134,10 @@ public class ActiveRecord {
 			for (String fieldName : tableFieldsValues.keySet()) {
 				tableFieldsValues.put(fieldName, result.getString(fieldName));
 			}
-			return this;// zwracamy cały ActiveRecord
+			return this;
 		} catch (SQLException e) {
 			System.out.println(e);
-			return new ActiveRecord(); // zwracamy pusty obiekt
+			return new ActiveRecord();
 		}
 
 	}

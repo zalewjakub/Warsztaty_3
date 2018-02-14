@@ -47,17 +47,15 @@ public class UserInfo extends HttpServlet {
 			ActiveRecord solution = new Solution(true);
 			request.setAttribute("solution", solution);
 			ArrayList<String> allSolution = new ArrayList<>();
-				try {
-					allSolution = solution.loadAllResult(id);
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-				int limit = solution.getcountRecord();
-				request.setAttribute("allSolution", allSolution);
-				request.setAttribute("sizeSolution", (solution.getFieldsWithId().length));
-				request.setAttribute("limitSolution", limit);
-				System.out.println(limit + " " + solution.getFieldsWithId().length);
-		
+			try {
+				allSolution = solution.loadAllResult(id);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			int limit = solution.getcountRecord();
+			request.setAttribute("allSolution", allSolution);
+			request.setAttribute("sizeSolution", (solution.getFieldsWithId().length));
+			request.setAttribute("limitSolution", limit);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

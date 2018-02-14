@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>UserInfo</title>
 </head>
 <body>
 <h1>Szczególy użytkownika o Id = ${id}</h1>
@@ -27,7 +27,7 @@
 			</c:forEach>
 		</tr>
 	</table>
-	<h2>Jego zadania</h2>
+	<h2>Jego rozwiązania</h2>
 	<table border=' 1px solid black'>
 		 <thead>
 			<tr>
@@ -49,7 +49,7 @@
 				<c:forEach var="solution" items="${allSolution}" begin="${(number-1)*sizeSolution}"
 					end="${(number-1)*sizeSolution}">				
 					<td><form method="" action="http://localhost:8080/Warsztaty_3/SolutionInfo">
-  <button type="submit" name="id" value="${solution}">Więcej</button>
+  <button type="submit" name="id" value="${solution}">Szczegóły ćwiczenia</button>
 </form></td>
 				</c:forEach>
 			</tr>
@@ -57,7 +57,7 @@
 	</table>
 	
 	
-	<a href="http://localhost:8080/Warsztaty_3/Menu">Powrót do Strony
+	<a href="http://localhost:8080/Warsztaty_3/homepage">Powrót do strony
 		głównej</a>
 </body>
 </html>
