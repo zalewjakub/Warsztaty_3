@@ -116,7 +116,6 @@ public class ActiveRecord {
 					datas.add(this.getValueWithId(key));
 				}
 				countRecord++;
-				System.out.println(countRecord);
 			}
 			this.countRecord = countRecord;
 			return datas;
@@ -199,5 +198,10 @@ public class ActiveRecord {
 			createNew();
 		} else {
 		}
+	}
+
+	public ArrayList<String> loadAllResult(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
