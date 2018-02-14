@@ -67,7 +67,7 @@ public class UsersLoadAll extends HttpServlet {
 			getServletContext().getRequestDispatcher("/WEB-INF/jsp/Users.jsp").forward(request, response);
 		}else {
 			try {
-				allData = user.loadAllResult();
+				allData = user.loadAllResult("");
 			} catch (Exception e) {
 				System.out.println(e);
 			}

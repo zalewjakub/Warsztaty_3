@@ -41,7 +41,7 @@ public class Groups extends HttpServlet {
 		request.setAttribute("group", group);
 		ArrayList<String> allGroup = new ArrayList<>();
 		try {
-			allGroup = group.loadAllResult();
+			allGroup = group.loadAllResult("");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

@@ -52,7 +52,7 @@ public class TestLoadAll extends HttpServlet {
 		request.setAttribute("user", user);
 		ArrayList<String> allData = new ArrayList<>();
 			try {
-				allData = user.loadAllResult();
+				allData = user.loadAllResult("");
 			} catch (Exception e) {
 				System.out.println(e);
 			}

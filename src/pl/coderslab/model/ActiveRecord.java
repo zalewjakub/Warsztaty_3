@@ -101,11 +101,11 @@ public class ActiveRecord {
 		}
 	}
 
-	public ArrayList<String> loadAllResult() {
+	public ArrayList<String> loadAllResult(String where) {
 		ArrayList<String> datas = new ArrayList<String>();
 		try {
 
-			String sql = String.format("SELECT * FROM %s", tableName);
+			String sql = String.format("SELECT * FROM %s %s", tableName, where);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
 			while (result.next()) {
