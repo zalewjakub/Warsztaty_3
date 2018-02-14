@@ -11,7 +11,7 @@
 <h2>Edycja:</h2>
 <a href="http://localhost:8080/Warsztaty_3/LoadUsers">Zarządzanie użytkownikami</a>
 	<br>
-<a href="http://localhost:8080/Warsztaty_3/testuser">Zarządzanie grupami</a>
+<a href="http://localhost:8080/Warsztaty_3/Groups">Zarządzanie grupami</a>
 	<br>	
 	<a href="http://localhost:8080/Warsztaty_3/testuser">Zarządzanie zadaniami</a>
 	<br>

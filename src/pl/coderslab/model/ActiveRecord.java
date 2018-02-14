@@ -38,11 +38,10 @@ public class ActiveRecord {
 		}
 	}
 
-	
-	
 	public String getTableName() {
 		return tableName;
 	}
+
 	public int getcountRecord() {
 		return countRecord;
 	}
@@ -101,10 +100,11 @@ public class ActiveRecord {
 			return new ArrayList<String>();
 		}
 	}
+
 	public ArrayList<String> loadAllResult() {
 		ArrayList<String> datas = new ArrayList<String>();
 		try {
-			
+
 			String sql = String.format("SELECT * FROM %s", tableName);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
@@ -124,6 +124,7 @@ public class ActiveRecord {
 			return new ArrayList<String>();
 		}
 	}
+
 	public ActiveRecord getById(int id) {
 		try {
 			String sql = String.format("SELECT * FROM %s WHERE id = ?", tableName);
