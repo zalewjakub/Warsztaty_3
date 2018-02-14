@@ -1,8 +1,6 @@
 package pl.coderslab.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +11,16 @@ import pl.coderslab.model.ActiveRecord;
 import pl.coderslab.model.User;
 
 /**
- * Servlet implementation class TestGetAll
+ * Servlet implementation class TestUserDelete
  */
-@WebServlet("/TestGetAll")
-public class TestGetAll extends HttpServlet {
+@WebServlet("/TestUserDelete")
+public class TestUserDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public TestGetAll() {
+	public TestUserDelete() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -33,9 +31,7 @@ public class TestGetAll extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ActiveRecord user = new User();
-		request.setAttribute("user", user);
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/loadAllLimit.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/deleteData.jsp").forward(request, response);
 	}
 
 	public boolean validate(String text) {
@@ -48,28 +44,23 @@ public class TestGetAll extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		String idParameter = request.getParameter("id");
 		ActiveRecord user = new User();
-		request.setAttribute("user", user);
-		int limit = 0;
-		String limitParameter = request.getParameter("limit");
-		ArrayList<String> allData = new ArrayList<>();
-		if (validate(limitParameter)) {
+		if (validate(idParameter)) {
 			try {
-				limit = Integer.parseInt(limitParameter);
-				allData = user.loadAll(limit);
+				int id = Integer.parseInt(idParameter);
+				if (id>0) {
+				user.delete(id);
+				response.sendRedirect("TestUserDelete?message=Usunieto rekord");
+				}
 			} catch (Exception e) {
 				System.out.println(e);
+				response.sendRedirect("TestUserDelete?message=Podaj prawidlowe Id");
 			}
-
-			request.setAttribute("allData", allData);
-			request.setAttribute("size", (user.getTableName().length()));
-			request.setAttribute("limit", limit);
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/loadAllLimit.jsp").forward(request, response);
+			
 		} else {
-			response.sendRedirect("TestGetById?message=Podaj Id");
+			response.sendRedirect("TestUserDelete?message=Podaj prawidlowe Id");
 		}
 
 	}
-
 }

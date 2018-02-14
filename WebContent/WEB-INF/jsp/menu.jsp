@@ -15,5 +15,7 @@
 	<br>
 	<a href="http://localhost:8080/Warsztaty_3/TestUserUpdate">Zmiana danych</a>
 	<br>
+	<a href="http://localhost:8080/Warsztaty_3/TestUserDelete">Usuwanie danych</a>
+	<br>
 </body>
 </html>

@@ -8,10 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="" method='post'>
+	<form action="http://localhost:8080/Warsztaty_3/TestGetAll" method='post'>
 		Podaj limit wyświetleń: <br> <input type="number" name="limit"
-			placeholder="Podaj Limit"}><br> <input type="submit"
-			placeholder="Wyślij"><br>
+			placeholder="Podaj Limit"}><br> <input
+			type="submit" value="Wyślij"><br> <input type="submit"
+			value="Drukuj całość" formaction="http://localhost:8080/Warsztaty_3/TestLoadAll"> <br>
 	</form>
 	<table border=' 1px solid black'>
 		<thead>
@@ -26,8 +27,8 @@
 		<c:forEach var="number" begin='1' end='${limit}'>
 			<tr>
 				<td>${number}</td>
-				<c:forEach var="data" items="${allData}" begin="${(number-1)*4}"
-					end="${(number*4)-1}">
+				<c:forEach var="data" items="${allData}" begin="${(number-1)*size}"
+					end="${(number*size)-1}">
 					<td>${data}</td>
 				</c:forEach>
 			</tr>

@@ -8,4 +8,10 @@ public class User extends ActiveRecord {
 		setTableFieldsValue("username", "email", "password", "user_group_id");
 	}
 
+	public User(boolean word) {
+		super();
+		tableName = "user";
+		setTableFieldsValueWithId("id", "username", "email", "password", "user_group_id");
+	}
+
 }

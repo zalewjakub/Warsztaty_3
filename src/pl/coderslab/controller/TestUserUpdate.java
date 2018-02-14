@@ -61,8 +61,10 @@ public class TestUserUpdate extends HttpServlet {
 					// user.save();
 				}
 				user.update(update.substring(0,update.length()-1),id);
+				response.sendRedirect("TestUserUpdate?message=Nadpisano rekord");
 			} catch (Exception e) {
 				System.out.println(e);
+				response.sendRedirect("TestUserUpdate?message=Nie nadpisano rekordu");
 			}
 		}
 

@@ -7,13 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class ActiveRecord {
 	protected String id = "0";
 	protected String tableName = "";
 	protected HashMap<String, String> tableFieldsValues = new HashMap<>();
+	protected HashMap<String, String> tableFieldsValuesWithId = new HashMap<>();
 	protected ArrayList<String> displayOrder = new ArrayList<>();
 	protected Connection conn = null;
+	public int countRecord = 0;
 
 	public ActiveRecord() {
 		try {
@@ -26,17 +27,32 @@ public class ActiveRecord {
 	protected void setTableFieldsValue(String... fieldNames) {
 		for (String name : fieldNames) {
 			displayOrder.add(name);
-			tableFieldsValues.put(name, ""); 
+			tableFieldsValues.put(name, "");
 		}
 	}
 
+	protected void setTableFieldsValueWithId(String... fieldNames) {
+		for (String name : fieldNames) {
+			displayOrder.add(name);
+			tableFieldsValuesWithId.put(name, "");
+		}
+	}
+
+	
+	
 	public String getTableName() {
 		return tableName;
 	}
+	public int getcountRecord() {
+		return countRecord;
+	}
 
-	public String getValue(String key) { // ten geter jest potrzebny aby przetestwować w TestUser metodę getById.
+	public String getValue(String key) {
 		return tableFieldsValues.get(key);
+	}
 
+	public String getValueWithId(String key) {
+		return tableFieldsValuesWithId.get(key);
 	}
 
 	public void setValue(String key, String value) {
@@ -47,36 +63,68 @@ public class ActiveRecord {
 		}
 	}
 
+	public void setValueWithId(String key, String value) {
+		if (tableFieldsValuesWithId.containsKey(key)) {
+			tableFieldsValuesWithId.put(key, value);
+		} else {
+			throw new RuntimeException(String.format("%s is not present in %s fields", key, tableName));
+		}
+	}
+
 	public String[] getFields() {
 		String[] tmp = new String[tableFieldsValues.size()];
 		return displayOrder.toArray(tmp);
 	}
 
-	public ArrayList<String> loadAll(int limit) {
+	public String[] getFieldsWithId() {
+		String[] tmp = new String[tableFieldsValuesWithId.size()];
+		return displayOrder.toArray(tmp);
+	}
+
+	public ArrayList<String> loadWithLimit(int limit) {
 		ArrayList<String> datas = new ArrayList<String>();
 		try {
 			String sql = String.format("SELECT * FROM %s LIMIT %s", tableName, limit);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet result = stmt.executeQuery();
-//			result.next();
-			while(result.next()) {
-			for (String fieldName : tableFieldsValues.keySet()) {
-				tableFieldsValues.put(fieldName, result.getString(fieldName));				
+			while (result.next()) {
+				for (String fieldName : tableFieldsValuesWithId.keySet()) {
+					tableFieldsValuesWithId.put(fieldName, result.getString(fieldName));
+				}
+				for (String key : this.getFieldsWithId()) {
+					datas.add(this.getValueWithId(key));
+				}
 			}
-			
-			for (String key : this.getFields()) {
-				datas.add(this.getValue(key));
-			}
-			System.out.println(datas.toString());
-			}
-			return datas;// zwracamy cały ActiveRecord
+			return datas;
 		} catch (SQLException e) {
 			System.out.println(e);
-			return new ArrayList<String>(); // zwracamy pusty obiekt
+			return new ArrayList<String>();
 		}
-		
 	}
-	
+	public ArrayList<String> loadAllResult() {
+		ArrayList<String> datas = new ArrayList<String>();
+		try {
+			
+			String sql = String.format("SELECT * FROM %s", tableName);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet result = stmt.executeQuery();
+			while (result.next()) {
+				for (String fieldName : tableFieldsValuesWithId.keySet()) {
+					tableFieldsValuesWithId.put(fieldName, result.getString(fieldName));
+				}
+				for (String key : this.getFieldsWithId()) {
+					datas.add(this.getValueWithId(key));
+				}
+				countRecord++;
+				System.out.println(countRecord);
+			}
+			this.countRecord = countRecord;
+			return datas;
+		} catch (SQLException e) {
+			System.out.println(e);
+			return new ArrayList<String>();
+		}
+	}
 	public ActiveRecord getById(int id) {
 		try {
 			String sql = String.format("SELECT * FROM %s WHERE id = ?", tableName);
@@ -96,28 +144,28 @@ public class ActiveRecord {
 	}
 
 	private String TrimBrackets(String text) {
-    	if(text.indexOf('[') == 0 && text.indexOf(']') == text.length()-1) {
-    		return text.substring(1, text.length()-1);
-    	}
-    	return text;
-    }    
+		if (text.indexOf('[') == 0 && text.indexOf(']') == text.length() - 1) {
+			return text.substring(1, text.length() - 1);
+		}
+		return text;
+	}
 
-    private String quotationMarks() {
-    	String result = "";
-    	for(String name:displayOrder) {
-    		result += "?,";
-    		
-    	}
-    	return result.substring(0, result.length()-1);
-    }
-	
+	private String quotationMarks() {
+		String result = "";
+		for (String name : displayOrder) {
+			result += "?,";
+
+		}
+		return result.substring(0, result.length() - 1);
+	}
+
 	protected void createNew() {
 		String sql = String.format("INSERT INTO %s(%s) VALUES(%s)", tableName, TrimBrackets(displayOrder.toString()),
 				quotationMarks());
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			int index = 1;
-			for (String field : displayOrder) {		
+			for (String field : displayOrder) {
 				stmt.setString(index++, getValue(field));
 			}
 			stmt.executeUpdate();
@@ -125,6 +173,7 @@ public class ActiveRecord {
 			System.out.println("Wypełnij wszystkie pola");
 		}
 	}
+
 	public void update(String whatUpdate, int id) {
 		String sql = String.format("UPDATE %s SET %s where id = %s", tableName, whatUpdate, id);
 		System.out.println(sql);
@@ -135,10 +184,16 @@ public class ActiveRecord {
 			System.out.println(e);
 		}
 	}
-	
-	
-	
-	
+
+	public void delete(int id) throws SQLException {
+		if (id > 0) {
+			String sql = String.format("DELETE FROM %s WHERE id= %s", tableName, id);
+			System.out.println(sql);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.executeUpdate();
+		}
+	}
+
 	public void save() {
 		if (id.equals("0")) {
 			createNew();
