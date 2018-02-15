@@ -1,4 +1,4 @@
-package pl.coderslab.controller;
+package pl.coderslab.controller.bin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import pl.coderslab.model.ActiveRecord;
 import pl.coderslab.model.User;
 
 /**
- * Servlet implementation class TestGetAll
+ * Servlet implementation class TestGetById
  */
-@WebServlet("/TestGetAll")
-public class TestGetAllLimit extends HttpServlet {
+@WebServlet("/TestGetById")
+public class TestGetById extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public TestGetAllLimit() {
+	public TestGetById() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -33,9 +33,9 @@ public class TestGetAllLimit extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ActiveRecord user = new User(true);
+		ActiveRecord user = new User();
 		request.setAttribute("user", user);
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/loadAllLimit.jsp").forward(request, response);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/search.jsp").forward(request, response);
 	}
 
 	public boolean validate(String text) {
@@ -48,22 +48,23 @@ public class TestGetAllLimit extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ActiveRecord user = new User(true);
-		request.setAttribute("user", user);
-		int limit = 0;
-		String limitParameter = request.getParameter("limit");
-		ArrayList<String> allData = new ArrayList<>();
-		if (validate(limitParameter)) {
+		ActiveRecord user = new User();
+		String idParameter = request.getParameter("id");
+		ArrayList<String> searchingUser = new ArrayList<>();
+		if (validate(idParameter)) {
 			try {
-				limit = Integer.parseInt(limitParameter);
-				allData = user.loadWithLimit(limit);
+				int id = Integer.parseInt(idParameter);
+				user.getById(id);
+				for (String key : user.getFields()) {
+					searchingUser.add(user.getValue(key));
+				}
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-			request.setAttribute("allData", allData);
-			request.setAttribute("size", (user.getFieldsWithId().length));
-			request.setAttribute("limit", limit);
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/loadAllLimit.jsp").forward(request, response);
+			request.setAttribute("user", user);
+			request.setAttribute("finded", searchingUser);
+			request.setAttribute("size", (searchingUser.size() / user.getTableName().length()));
+			getServletContext().getRequestDispatcher("/WEB-INF/jsp/search.jsp").forward(request, response);
 		} else {
 			response.sendRedirect("TestGetById?message=Podaj Id");
 		}

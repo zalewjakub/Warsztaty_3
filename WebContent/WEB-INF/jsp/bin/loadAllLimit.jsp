@@ -9,7 +9,6 @@
 <title>Insert title here</title>
 </head>
 <body>
- <% int count = 0;%>
 	<form action="http://localhost:8080/Warsztaty_3/TestGetAll" method='post'>
 		Podaj limit wyświetleń: <br> <input type="number" name="limit"
 			placeholder="Podaj Limit"}><br> <input

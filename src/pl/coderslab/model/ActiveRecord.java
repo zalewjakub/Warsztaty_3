@@ -176,7 +176,6 @@ public class ActiveRecord {
 
 	public void update(String whatUpdate, int id) {
 		String sql = String.format("UPDATE %s SET %s where id = %s", tableName, whatUpdate, id);
-		System.out.println(sql);
 		try {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.executeUpdate();
@@ -188,16 +187,16 @@ public class ActiveRecord {
 	public void delete(int id) throws SQLException {
 		if (id > 0) {
 			String sql = String.format("DELETE FROM %s WHERE id= %s", tableName, id);
-			System.out.println(sql);
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.executeUpdate();
 		}
 	}
 
-	public void save() {
-		if (id.equals("0")) {
+	public void save(int id, String whatUpdate) {
+		if (id == 0) {
 			createNew();
 		} else {
+			update(whatUpdate, id);
 		}
 	}
 

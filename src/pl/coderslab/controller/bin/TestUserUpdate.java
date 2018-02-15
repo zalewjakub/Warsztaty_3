@@ -1,8 +1,6 @@
-package pl.coderslab.controller;
+package pl.coderslab.controller.bin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,33 +11,33 @@ import pl.coderslab.model.ActiveRecord;
 import pl.coderslab.model.User;
 
 /**
- * Servlet implementation class TestGetById
+ * Servlet implementation class TestUserUpdate
  */
-@WebServlet("/TestGetById")
-public class TestGetById extends HttpServlet {
+@WebServlet("/TestUserUpdate")
+public class TestUserUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public TestGetById() {
+	public TestUserUpdate() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	public boolean validate(String text) {
+		return text != null && !"".equals(text);
+	}
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequestużytkownika request,
+	 *      HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ActiveRecord user = new User();
 		request.setAttribute("user", user);
-		getServletContext().getRequestDispatcher("/WEB-INF/jsp/search.jsp").forward(request, response);
-	}
-
-	public boolean validate(String text) {
-		return text != null && !"".equals(text);
+		getServletContext().getRequestDispatcher("/WEB-INF/jsp/updateUser.jsp").forward(request, response);
 	}
 
 	/**
@@ -48,25 +46,26 @@ public class TestGetById extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String update = "";
 		ActiveRecord user = new User();
 		String idParameter = request.getParameter("id");
-		ArrayList<String> searchingUser = new ArrayList<>();
 		if (validate(idParameter)) {
 			try {
 				int id = Integer.parseInt(idParameter);
-				user.getById(id);
-				for (String key : user.getFields()) {
-					searchingUser.add(user.getValue(key));
+				for (String name : user.getFields()) {
+					if (validate(request.getParameter(name))) {
+						user.setValue(name, request.getParameter(name));
+						System.out.println("\"");
+						update += name + "=" + "\"" + request.getParameter(name) + "\""  + ",";
+					}
+					// user.save();
 				}
+				user.update(update.substring(0,update.length()-1),id);
+				response.sendRedirect("TestUserUpdate?message=Nadpisano rekord");
 			} catch (Exception e) {
 				System.out.println(e);
+				response.sendRedirect("TestUserUpdate?message=Nie nadpisano rekordu");
 			}
-			request.setAttribute("user", user);
-			request.setAttribute("finded", searchingUser);
-			request.setAttribute("size", (searchingUser.size() / user.getTableName().length()));
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/search.jsp").forward(request, response);
-		} else {
-			response.sendRedirect("TestGetById?message=Podaj Id");
 		}
 
 	}

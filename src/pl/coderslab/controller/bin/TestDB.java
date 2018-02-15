@@ -1,4 +1,4 @@
-package pl.coderslab.controller;
+package pl.coderslab.controller.bin;
 
 import java.io.IOException;
 import java.sql.Connection;

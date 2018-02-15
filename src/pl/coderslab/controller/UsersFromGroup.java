@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pl.coderslab.model.ActiveRecord;
-import pl.coderslab.model.Solution;
 import pl.coderslab.model.User;
 
 /**
@@ -37,7 +36,6 @@ public class UsersFromGroup extends HttpServlet {
 		request.setAttribute("user", user);
 		ArrayList<String> searchingUsers = new ArrayList<>();
 		String word = "where user_group_id=" + idParameter;
-		System.out.println(word);
 		try {
 			int id = Integer.parseInt(idParameter);
 			searchingUsers = user.loadAllResult(word);

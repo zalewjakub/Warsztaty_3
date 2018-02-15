@@ -1,4 +1,4 @@
-package pl.coderslab.controller;
+package pl.coderslab.controller.bin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -69,7 +69,7 @@ public class TestUser extends HttpServlet {
 		if (count < user.getFields().length) {
 			response.sendRedirect("testuser?message=Wypelnij wszystkie pola");
 		}else {
-			user.save();// powinna zwracać id
+			user.save(0,"");// powinna zwracać id
 			response.sendRedirect("testuser?message=Dodano!!!");
 			// doGet()	
 		}

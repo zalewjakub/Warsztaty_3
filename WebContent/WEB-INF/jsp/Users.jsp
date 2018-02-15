@@ -10,7 +10,7 @@
 <body>
 	<form action="http://localhost:8080/Warsztaty_3/LoadUsers" method='post'>
 		Podaj limit wyświetleń: <br> <input type="number" name="limit"
-			placeholder="Podaj Limit" step="1" min="0" max="1000000"}><br> <input
+			placeholder="Podaj Limit" step="1" min="0" max="1000000"><br> <input
 			type="submit" value="Wyślij"><br> <input type="submit"
 			value="Drukuj całość" formaction="http://localhost:8080/Warsztaty_3/LoadUsers"> <br>
 	

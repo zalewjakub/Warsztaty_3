@@ -37,5 +37,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<a href="http://localhost:8080/Warsztaty_3/Groups">Powrót do
+		strony wyboru grupy</a>
 </body>
 </html>
